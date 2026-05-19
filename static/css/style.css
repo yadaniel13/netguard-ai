@@ -1,0 +1,219 @@
+/* ═══════════════════════════════════════════════════════════
+   NetGuard AI — Dark Theme Custom Styles
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  --ng-bg:        #0d1117;
+  --ng-surface:   #161b22;
+  --ng-surface2:  #1c2333;
+  --ng-border:    #30363d;
+  --ng-text:      #e6edf3;
+  --ng-muted:     #8b949e;
+  --ng-primary:   #58a6ff;
+  --ng-success:   #3fb950;
+  --ng-danger:    #f85149;
+  --ng-warning:   #d29922;
+  --ng-info:      #39c5cf;
+  --ng-sidebar-w: 240px;
+}
+
+/* ── Base ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { height: 100%; margin: 0; }
+
+body.ng-body {
+  background: var(--ng-bg);
+  color: var(--ng-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ── Sidebar ──────────────────────────────────────────────── */
+.ng-sidebar {
+  width: var(--ng-sidebar-w);
+  min-height: 100vh;
+  background: var(--ng-surface);
+  border-right: 1px solid var(--ng-border);
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  z-index: 100;
+  overflow-y: auto;
+  transition: transform .3s ease;
+}
+
+.ng-logo-icon {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, #1f6feb, #388bfd);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; color: #fff;
+}
+
+.ng-nav-link {
+  color: var(--ng-muted) !important;
+  border-radius: 8px;
+  padding: .5rem .75rem;
+  font-size: .875rem;
+  transition: background .15s, color .15s;
+}
+.ng-nav-link:hover  { background: var(--ng-surface2); color: var(--ng-text) !important; }
+.ng-nav-link.active { background: #1f6feb22; color: var(--ng-primary) !important; }
+
+/* ── Content area ─────────────────────────────────────────── */
+.ng-content {
+  margin-left: var(--ng-sidebar-w);
+  flex: 1;
+  min-height: 100vh;
+  background: var(--ng-bg);
+}
+
+/* ── Top bar ──────────────────────────────────────────────── */
+.ng-topbar {
+  background: var(--ng-surface);
+  border-bottom: 1px solid var(--ng-border);
+  min-height: 52px;
+}
+
+/* ── Cards ────────────────────────────────────────────────── */
+.card {
+  background: var(--ng-surface) !important;
+  border-color: var(--ng-border) !important;
+  border-radius: 12px;
+}
+.card-header {
+  background: transparent !important;
+  border-color: var(--ng-border) !important;
+  padding: .75rem 1.25rem;
+}
+
+/* Stat cards */
+.ng-stat-card {
+  border-radius: 12px;
+  transition: transform .2s, box-shadow .2s;
+}
+.ng-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+}
+.ng-stat-icon {
+  width: 48px; height: 48px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.ng-stat-value { font-size: 1.6rem; font-weight: 700; line-height: 1; }
+.ng-stat-label { font-size: .75rem; color: var(--ng-muted); margin-top: 2px; }
+
+/* ── Tables ───────────────────────────────────────────────── */
+.ng-table { color: var(--ng-text) !important; font-size: .875rem; }
+.ng-table thead th {
+  background: var(--ng-surface2);
+  color: var(--ng-muted);
+  font-weight: 600;
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  border-color: var(--ng-border) !important;
+  padding: .6rem 1rem;
+}
+.ng-table tbody td {
+  border-color: var(--ng-border) !important;
+  vertical-align: middle;
+  padding: .6rem 1rem;
+}
+.ng-table tbody tr:hover { background: var(--ng-surface2) !important; }
+.table-success { background: #3fb95015 !important; }
+
+/* Mini progress bar */
+.ng-mini-progress {
+  width: 60px; height: 6px;
+  background: var(--ng-surface2);
+  border-radius: 3px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* ── Drop zone ────────────────────────────────────────────── */
+.ng-dropzone {
+  border: 2px dashed var(--ng-border);
+  border-radius: 12px;
+  padding: 2.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .2s, background .2s;
+}
+.ng-dropzone:hover,
+.ng-dropzone-over {
+  border-color: var(--ng-primary);
+  background: #1f6feb0a;
+}
+.ng-dropzone-inner { pointer-events: none; }
+
+/* ── Charts ───────────────────────────────────────────────── */
+.ng-chart-img {
+  max-width: 100%;
+  border-radius: 8px;
+}
+
+/* ── About card ───────────────────────────────────────────── */
+.ng-about-card {
+  background: linear-gradient(135deg, var(--ng-surface) 0%, #1a2744 100%) !important;
+  border: 1px solid #1f6feb44 !important;
+}
+.ng-big-icon { font-size: 3rem; }
+
+/* ── Model cards ──────────────────────────────────────────── */
+.ng-model-card { position: relative; overflow: hidden; }
+.ng-model-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0,0,0,.5);
+  transition: transform .2s, box-shadow .2s;
+}
+.ng-model-best { border: 1px solid #3fb95055 !important; }
+.ng-model-badge {
+  position: absolute; top: 12px; right: 12px;
+  background: var(--ng-success);
+  color: #fff; font-size: .7rem; font-weight: 600;
+  padding: 2px 8px; border-radius: 99px;
+}
+.ng-model-icon { line-height: 1; }
+.ng-metric-mini { padding: .5rem; background: var(--ng-surface2); border-radius: 8px; }
+.ng-metric-val  { font-size: 1.25rem; font-weight: 700; }
+.ng-metric-name { font-size: .7rem; color: var(--ng-muted); }
+
+/* ── Attack dots ──────────────────────────────────────────── */
+.ng-attack-dot {
+  display: inline-block; width: 10px; height: 10px;
+  border-radius: 50%; margin-right: 6px;
+}
+.ng-dot-normal { background: #3fb950; }
+.ng-dot-ddos   { background: #f85149; }
+.ng-dot-scan   { background: #fd7e14; }
+.ng-dot-brute  { background: #d29922; }
+.ng-dot-bot    { background: #9b59b6; }
+.ng-dot-web    { background: #39c5cf; }
+.ng-dot-other  { background: #6c757d; }
+
+/* ── Badges ───────────────────────────────────────────────── */
+.badge { font-weight: 500; }
+
+/* ── Scrollbar ────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--ng-bg); }
+::-webkit-scrollbar-thumb { background: var(--ng-border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ng-muted); }
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 991px) {
+  .ng-sidebar { transform: translateX(-100%); }
+  .ng-sidebar.open { transform: translateX(0); }
+  .ng-content { margin-left: 0; }
+}
+
+/* ── Animations ───────────────────────────────────────────── */
+.card { animation: fadeUp .3s ease; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

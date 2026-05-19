@@ -1,0 +1,242 @@
+{% extends "base.html" %}
+{% block title %}Модели МО — NetGuard AI{% endblock %}
+{% block breadcrumb %}<li class="breadcrumb-item active">Модели МО</li>{% endblock %}
+
+{% block content %}
+<h4 class="fw-bold mb-1">Модели машинного обучения</h4>
+<p class="text-muted mb-4">Сравнение алгоритмов классификации сетевого трафика</p>
+
+<!-- Model cards -->
+<div class="row g-4 mb-5">
+  <!-- Logistic Regression -->
+  <div class="col-md-4">
+    <div class="card border-0 h-100 ng-model-card">
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <div class="ng-model-icon text-info"><i class="bi bi-graph-up-arrow fs-2"></i></div>
+          <div>
+            <h5 class="fw-bold mb-0">Logistic Regression</h5>
+            <span class="badge bg-info-subtle text-info">Линейная</span>
+          </div>
+        </div>
+        <p class="text-muted small">
+          Базовая линейная модель для многоклассовой классификации. Интерпретируемая,
+          быстрая в обучении, служит эталоном для сравнения с более сложными методами.
+        </p>
+        <hr class="border-secondary">
+        <div class="row g-2 text-center">
+          <div class="col-6">
+            <div class="ng-metric-mini">
+              <div class="ng-metric-val text-info">~88%</div>
+              <div class="ng-metric-name">Ожид. Accuracy</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="ng-metric-mini">
+              <div class="ng-metric-val text-info">Быстро</div>
+              <div class="ng-metric-name">Обучение</div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-3">
+          <div class="d-flex flex-wrap gap-1">
+            <span class="badge bg-secondary small">Интерпретируемость ★★★★★</span>
+            <span class="badge bg-secondary small">Скорость ★★★★★</span>
+            <span class="badge bg-secondary small">Точность ★★★</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Random Forest -->
+  <div class="col-md-4">
+    <div class="card border-0 h-100 ng-model-card ng-model-best">
+      <div class="ng-model-badge"><i class="bi bi-star-fill me-1"></i>Рекомендуется</div>
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <div class="ng-model-icon text-success"><i class="bi bi-diagram-3 fs-2"></i></div>
+          <div>
+            <h5 class="fw-bold mb-0">Random Forest</h5>
+            <span class="badge bg-success-subtle text-success">Ансамблевая</span>
+          </div>
+        </div>
+        <p class="text-muted small">
+          Ансамбль из 100 деревьев решений. Устойчив к переобучению, хорошо справляется
+          с несбалансированными классами, предоставляет важность признаков.
+        </p>
+        <hr class="border-secondary">
+        <div class="row g-2 text-center">
+          <div class="col-6">
+            <div class="ng-metric-mini">
+              <div class="ng-metric-val text-success">~97%</div>
+              <div class="ng-metric-name">Ожид. Accuracy</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="ng-metric-mini">
+              <div class="ng-metric-val text-success">Средне</div>
+              <div class="ng-metric-name">Обучение</div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-3">
+          <div class="d-flex flex-wrap gap-1">
+            <span class="badge bg-secondary small">Интерпретируемость ★★★</span>
+            <span class="badge bg-secondary small">Скорость ★★★</span>
+            <span class="badge bg-secondary small">Точность ★★★★★</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- XGBoost -->
+  <div class="col-md-4">
+    <div class="card border-0 h-100 ng-model-card">
+      <div class="card-body">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <div class="ng-model-icon text-warning"><i class="bi bi-lightning-charge fs-2"></i></div>
+          <div>
+            <h5 class="fw-bold mb-0">XGBoost</h5>
+            <span class="badge bg-warning-subtle text-warning">Бустинг</span>
+          </div>
+        </div>
+        <p class="text-muted small">
+          Градиентный бустинг с оптимизацией. Высокая точность, встроенная
+          регуляризация, поддержка пропущенных значений. Победитель многих Kaggle-соревнований.
+        </p>
+        <hr class="border-secondary">
+        <div class="row g-2 text-center">
+          <div class="col-6">
+            <div class="ng-metric-mini">
+              <div class="ng-metric-val text-warning">~98%</div>
+              <div class="ng-metric-name">Ожид. Accuracy</div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="ng-metric-mini">
+              <div class="ng-metric-val text-warning">Средне</div>
+              <div class="ng-metric-name">Обучение</div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-3">
+          <div class="d-flex flex-wrap gap-1">
+            <span class="badge bg-secondary small">Интерпретируемость ★★★</span>
+            <span class="badge bg-secondary small">Скорость ★★★★</span>
+            <span class="badge bg-secondary small">Точность ★★★★★</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Actual metrics from last analysis -->
+{% if metrics %}
+<div class="card border-0 mb-4">
+  <div class="card-header bg-transparent border-bottom border-secondary d-flex justify-content-between align-items-center">
+    <h6 class="mb-0"><i class="bi bi-bar-chart me-2 text-primary"></i>
+      Фактические метрики
+      {% if analysis %}<span class="text-muted small ms-2">— Анализ #{{ analysis.id }}</span>{% endif %}
+    </h6>
+    {% if analysis %}
+    <a href="/analysis/{{ analysis.id }}" class="btn btn-sm btn-outline-primary">
+      <i class="bi bi-eye me-1"></i>Полные результаты
+    </a>
+    {% endif %}
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table table-hover ng-table mb-0">
+        <thead>
+          <tr>
+            <th>Модель</th>
+            <th>Accuracy</th>
+            <th>Precision</th>
+            <th>Recall</th>
+            <th>F1-Score</th>
+            <th>Время обучения</th>
+            <th>Статус</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for m in metrics %}
+          <tr {% if m.is_best %}class="table-success"{% endif %}>
+            <td class="fw-semibold">
+              {% if m.model_name == "Random Forest" %}<i class="bi bi-diagram-3 text-success me-2"></i>
+              {% elif m.model_name == "XGBoost" %}<i class="bi bi-lightning-charge text-warning me-2"></i>
+              {% else %}<i class="bi bi-graph-up text-info me-2"></i>{% endif %}
+              {{ m.model_name }}
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <div class="progress ng-mini-progress">
+                  <div class="progress-bar bg-primary" style="width:{{ (m.accuracy * 100)|round(1) }}%"></div>
+                </div>
+                <strong>{{ (m.accuracy * 100)|round(2) }}%</strong>
+              </div>
+            </td>
+            <td>{{ (m.precision * 100)|round(2) }}%</td>
+            <td>{{ (m.recall * 100)|round(2) }}%</td>
+            <td>
+              <span class="badge fs-6
+                {% if m.f1_score >= 0.95 %}bg-success
+                {% elif m.f1_score >= 0.85 %}bg-warning text-dark
+                {% else %}bg-danger{% endif %}">
+                {{ (m.f1_score * 100)|round(2) }}%
+              </span>
+            </td>
+            <td>{{ m.training_time }}s</td>
+            <td>
+              {% if m.is_best %}
+              <span class="badge bg-success"><i class="bi bi-star-fill me-1"></i>Лучшая</span>
+              {% else %}<span class="badge bg-secondary">—</span>{% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="alert alert-info">
+  <i class="bi bi-info-circle me-2"></i>
+  Загрузите CSV файл для получения фактических метрик моделей.
+  <a href="/upload" class="alert-link">Загрузить файл</a>
+</div>
+{% endif %}
+
+<!-- Algorithm comparison table (theory) -->
+<div class="card border-0">
+  <div class="card-header bg-transparent border-bottom border-secondary">
+    <h6 class="mb-0"><i class="bi bi-table me-2 text-secondary"></i>Сравнительный анализ алгоритмов</h6>
+  </div>
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table ng-table mb-0">
+        <thead>
+          <tr>
+            <th>Критерий</th>
+            <th class="text-info">Logistic Regression</th>
+            <th class="text-success">Random Forest</th>
+            <th class="text-warning">XGBoost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Тип</td><td>Линейный</td><td>Ансамблевый</td><td>Бустинг</td></tr>
+          <tr><td>Интерпретируемость</td><td class="text-success">Высокая</td><td class="text-warning">Средняя</td><td class="text-warning">Средняя</td></tr>
+          <tr><td>Устойчивость к шуму</td><td class="text-danger">Низкая</td><td class="text-success">Высокая</td><td class="text-success">Высокая</td></tr>
+          <tr><td>Работа с несбалансированными данными</td><td class="text-warning">Средняя</td><td class="text-success">Хорошая</td><td class="text-success">Хорошая</td></tr>
+          <tr><td>Скорость обучения</td><td class="text-success">Быстро</td><td class="text-warning">Средне</td><td class="text-warning">Средне</td></tr>
+          <tr><td>Скорость инференса</td><td class="text-success">Быстро</td><td class="text-warning">Средне</td><td class="text-success">Быстро</td></tr>
+          <tr><td>Подбор гиперпараметров</td><td class="text-success">Прост</td><td class="text-warning">Умеренный</td><td class="text-danger">Сложный</td></tr>
+          <tr><td>Ожидаемая точность на IDS-данных</td><td>~85-90%</td><td>~95-98%</td><td>~96-99%</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

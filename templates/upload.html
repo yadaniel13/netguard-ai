@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% block title %}Загрузка файла — NetGuard AI{% endblock %}
+{% block breadcrumb %}<li class="breadcrumb-item active">Загрузка файла</li>{% endblock %}
+
+{% block content %}
+<h4 class="fw-bold mb-1">Загрузка файла трафика</h4>
+<p class="text-muted mb-4">Загрузите CSV-файл с записями сетевого трафика для анализа</p>
+
+<div class="row g-4">
+  <!-- Upload form -->
+  <div class="col-lg-7">
+    <div class="card border-0">
+      <div class="card-header bg-transparent border-bottom border-secondary">
+        <h6 class="mb-0"><i class="bi bi-cloud-upload me-2 text-primary"></i>Загрузка CSV файла</h6>
+      </div>
+      <div class="card-body">
+        <!-- Drop zone -->
+        <div class="ng-dropzone mb-4" id="dropZone">
+          <div class="ng-dropzone-inner">
+            <i class="bi bi-file-earmark-arrow-up fs-1 text-primary mb-3 d-block"></i>
+            <h5 class="mb-1">Перетащите файл сюда</h5>
+            <p class="text-muted mb-3">или нажмите для выбора файла</p>
+            <input type="file" id="fileInput" accept=".csv" class="d-none">
+            <button class="btn btn-outline-primary" onclick="document.getElementById('fileInput').click()">
+              <i class="bi bi-folder2-open me-2"></i>Выбрать файл
+            </button>
+          </div>
+        </div>
+
+        <!-- Selected file info -->
+        <div id="fileInfo" class="d-none mb-3">
+          <div class="alert alert-info d-flex align-items-center gap-3 mb-0">
+            <i class="bi bi-file-earmark-text fs-3 text-info"></i>
+            <div class="flex-grow-1">
+              <div class="fw-bold" id="fileName">—</div>
+              <div class="text-muted small" id="fileSize">—</div>
+            </div>
+            <button class="btn btn-sm btn-outline-danger" id="clearFile">
+              <i class="bi bi-x-lg"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Progress bar -->
+        <div id="uploadProgress" class="d-none mb-3">
+          <div class="progress" style="height:6px">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary"
+                 id="progressBar" style="width: 0%"></div>
+          </div>
+          <div class="text-muted small mt-1" id="progressText">Загрузка…</div>
+        </div>
+
+        <!-- Submit -->
+        <button class="btn btn-primary w-100" id="uploadBtn" disabled>
+          <i class="bi bi-play-circle me-2"></i>Загрузить и анализировать
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Info panel -->
+  <div class="col-lg-5">
+    <div class="card border-0 mb-3">
+      <div class="card-header bg-transparent border-bottom border-secondary">
+        <h6 class="mb-0"><i class="bi bi-info-circle me-2 text-info"></i>Формат данных</h6>
+      </div>
+      <div class="card-body">
+        <p class="text-muted small mb-2">Поддерживаемые форматы CSV:</p>
+        <ul class="list-unstyled small">
+          <li class="mb-1"><i class="bi bi-check-circle text-success me-2"></i>CIC-IDS2017 (оригинальный)</li>
+          <li class="mb-1"><i class="bi bi-check-circle text-success me-2"></i>Любой CSV с числовыми признаками</li>
+          <li class="mb-1"><i class="bi bi-check-circle text-success me-2"></i>Колонка Label/label/attack_type</li>
+        </ul>
+        <hr class="border-secondary">
+        <p class="text-muted small mb-2">Распознаваемые метки атак:</p>
+        <div class="d-flex flex-wrap gap-1">
+          <span class="badge" style="background:#28a74520;color:#28a745">BENIGN</span>
+          <span class="badge" style="background:#dc354520;color:#dc3545">DoS Hulk</span>
+          <span class="badge" style="background:#fd7e1420;color:#fd7e14">PortScan</span>
+          <span class="badge" style="background:#ffc10720;color:#ffc107">FTP-Patator</span>
+          <span class="badge" style="background:#9b59b620;color:#9b59b6">Bot</span>
+          <span class="badge" style="background:#17a2b820;color:#17a2b8">Web Attack</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-0">
+      <div class="card-header bg-transparent border-bottom border-secondary">
+        <h6 class="mb-0"><i class="bi bi-cpu me-2 text-warning"></i>Используемые модели</h6>
+      </div>
+      <div class="card-body">
+        <div class="d-flex flex-column gap-2">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-tree text-success"></i>
+            <div>
+              <div class="fw-semibold small">Random Forest</div>
+              <div class="text-muted" style="font-size:.7rem">100 деревьев, ансамблевый метод</div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-lightning text-warning"></i>
+            <div>
+              <div class="fw-semibold small">XGBoost</div>
+              <div class="text-muted" style="font-size:.7rem">Градиентный бустинг</div>
+            </div>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-graph-up text-info"></i>
+            <div>
+              <div class="fw-semibold small">Logistic Regression</div>
+              <div class="text-muted" style="font-size:.7rem">Базовая линейная модель</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Result modal -->
+<div class="modal fade" id="resultModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0">
+      <div class="modal-body text-center py-4">
+        <div id="modalContent">
+          <div class="spinner-border text-primary mb-3" style="width:3rem;height:3rem"></div>
+          <h5 id="modalTitle">Анализ выполняется…</h5>
+          <p class="text-muted" id="modalText">Обучение моделей и классификация трафика</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const fileInfo = document.getElementById('fileInfo');
+const uploadBtn = document.getElementById('uploadBtn');
+let selectedFile = null;
+
+function formatBytes(b) {
+  if (b < 1024) return b + ' B';
+  if (b < 1048576) return (b/1024).toFixed(1) + ' KB';
+  return (b/1048576).toFixed(1) + ' MB';
+}
+
+function setFile(file) {
+  if (!file.name.endsWith('.csv')) { alert('Только .csv файлы!'); return; }
+  selectedFile = file;
+  document.getElementById('fileName').textContent = file.name;
+  document.getElementById('fileSize').textContent = formatBytes(file.size);
+  fileInfo.classList.remove('d-none');
+  uploadBtn.disabled = false;
+}
+
+fileInput.addEventListener('change', e => { if (e.target.files[0]) setFile(e.target.files[0]); });
+document.getElementById('clearFile').addEventListener('click', () => {
+  selectedFile = null;
+  fileInput.value = '';
+  fileInfo.classList.add('d-none');
+  uploadBtn.disabled = true;
+});
+
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('ng-dropzone-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('ng-dropzone-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('ng-dropzone-over');
+  if (e.dataTransfer.files[0]) setFile(e.dataTransfer.files[0]);
+});
+
+uploadBtn.addEventListener('click', async () => {
+  if (!selectedFile) return;
+  const modal = new bootstrap.Modal(document.getElementById('resultModal'));
+  modal.show();
+
+  // 1. Upload
+  const form = new FormData();
+  form.append('file', selectedFile);
+  let fileId;
+  try {
+    const res = await fetch('/api/upload', { method: 'POST', body: form });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || 'Upload failed');
+    fileId = data.file_id;
+    document.getElementById('modalTitle').textContent = 'Файл загружен. Анализ…';
+    document.getElementById('modalText').textContent = `${data.row_count.toLocaleString()} строк обнаружено. Обучение моделей…`;
+  } catch (e) {
+    showModalError(e.message); return;
+  }
+
+  // 2. Analyse
+  try {
+    const res = await fetch(`/api/analyze/${fileId}`, { method: 'POST' });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.detail || 'Analysis failed');
+    document.getElementById('modalContent').innerHTML = `
+      <i class="bi bi-check-circle-fill text-success mb-3" style="font-size:3rem"></i>
+      <h5>Анализ завершён!</h5>
+      <p class="text-muted mb-4">Модели обучены, трафик классифицирован.</p>
+      <a href="/analysis/${data.analysis_id}" class="btn btn-primary">
+        <i class="bi bi-bar-chart me-2"></i>Просмотреть результаты
+      </a>`;
+  } catch (e) { showModalError(e.message); }
+});
+
+function showModalError(msg) {
+  document.getElementById('modalContent').innerHTML = `
+    <i class="bi bi-x-circle-fill text-danger mb-3" style="font-size:3rem"></i>
+    <h5>Ошибка</h5>
+    <p class="text-muted">${msg}</p>
+    <button class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>`;
+}
+</script>
+{% endblock %}

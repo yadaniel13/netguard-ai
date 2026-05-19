@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+.eggs/
+venv/
+env/
+.venv/
+
+# Project runtime data (не коммитим)
+uploads/
+models/
+database/*.db
+static/charts/
+logs/
+datasets/sample_traffic.csv
+
+# Keep directory structure
+!uploads/.gitkeep
+!models/.gitkeep
+!static/charts/.gitkeep
+
+# Env
+.env
+*.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db

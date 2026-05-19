@@ -21,7 +21,7 @@
             <h5 class="mb-1">Перетащите файл сюда</h5>
             <p class="text-muted mb-3">или нажмите для выбора файла</p>
             <input type="file" id="fileInput" accept=".csv" class="d-none">
-            <button class="btn btn-outline-primary" onclick="document.getElementById('fileInput').click()">
+            <button class="btn btn-outline-primary" type="button">
               <i class="bi bi-folder2-open me-2"></i>Выбрать файл
             </button>
           </div>
@@ -164,6 +164,7 @@ document.getElementById('clearFile').addEventListener('click', () => {
   uploadBtn.disabled = true;
 });
 
+dropZone.addEventListener('click', () => fileInput.click());
 dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('ng-dropzone-over'); });
 dropZone.addEventListener('dragleave', () => dropZone.classList.remove('ng-dropzone-over'));
 dropZone.addEventListener('drop', e => {

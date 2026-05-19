@@ -66,6 +66,23 @@ class TrafficPreprocessor:
             raise ValueError("Не найден столбец с метками (label / attack_type / class).")
 
         y_raw = _map_attack_labels(df[self.label_column])
+
+        # Drop classes with fewer than 5 samples — too rare to split/train on
+        counts = y_raw.value_counts()
+        valid = counts[counts >= 5].index
+        if len(valid) < len(counts):
+            removed = counts[counts < 5].to_dict()
+            logger.warning("Removing rare classes (< 5 samples): %s", removed)
+            mask = y_raw.isin(valid)
+            y_raw = y_raw[mask].reset_index(drop=True)
+            df = df[mask].reset_index(drop=True)
+
+        if len(y_raw) < 20:
+            raise ValueError(
+                f"После фильтрации редких классов осталось только {len(y_raw)} строк. "
+                "Загрузите датасет с большим количеством записей (минимум 20 на класс)."
+            )
+
         X = df.drop(columns=[self.label_column])
         X = self._select_numeric(X)
         self.feature_columns = list(X.columns)
@@ -143,6 +160,11 @@ def load_and_validate_csv(path: str) -> pd.DataFrame:
         raise ValueError("CSV файл пустой.")
     if len(df.columns) < 3:
         raise ValueError("CSV содержит менее 3 столбцов. Проверьте формат файла.")
+    if len(df) < 20:
+        raise ValueError(
+            f"CSV содержит только {len(df)} строк. Минимум — 20 строк для обучения моделей. "
+            "Загрузите файл с реальными данными трафика."
+        )
 
     logger.info("CSV loaded: %d rows × %d columns", len(df), len(df.columns))
     return df

@@ -44,8 +44,13 @@ def train_all_models(
     Returns (results_dict, X_test, y_test).
     """
     n_classes = len(np.unique(y))
+    unique, counts = np.unique(y, return_counts=True)
+    can_stratify = bool((counts >= 2).all())
     X_train, X_test, y_train, y_test = train_test_split(
-        X, y, test_size=settings.TEST_SIZE, random_state=settings.RANDOM_STATE, stratify=y
+        X, y,
+        test_size=settings.TEST_SIZE,
+        random_state=settings.RANDOM_STATE,
+        stratify=y if can_stratify else None,
     )
     results: Dict[str, dict] = {}
 
